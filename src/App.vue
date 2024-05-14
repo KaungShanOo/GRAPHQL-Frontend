@@ -72,8 +72,8 @@ const { mutate: addGame } = useMutation(addMutation, () => {
   return {
     variables: {
       game: {
-        title: 'valley on mountain',
-        platform: 'ios'
+        title: addTitle.value,
+        platform: addPlatform.value
       }
     }
   }
@@ -81,10 +81,10 @@ const { mutate: addGame } = useMutation(addMutation, () => {
 const { mutate: updateGame } = useMutation(updateMutation, () => {
   return {
     variables: {
-      id:2398,
+      id: updateId.value,
       edits: {
-        title: 'valley',
-        platform: 'ios'
+        title: updateTitle.value,
+        platform: updatePlatform.value
       }
     }
   }
@@ -93,7 +93,7 @@ const { mutate: updateGame } = useMutation(updateMutation, () => {
 const { mutate: deleteGame } = useMutation(deleteMutation, () => {
   return {
     variables: {
-      id: 3526
+      id: deleteId.value
     }
   }
 })
@@ -112,14 +112,34 @@ async function handleDelete() {
   await deleteGame()
   location.reload()
 }
-
+const deleteId = ref('')
+const addTitle = ref('')
+const addPlatform = ref('')
+const updateId = ref('')
+const updateTitle = ref('')
+const updatePlatform = ref('')
 </script>
 
 <template>
   <h1>Games</h1>
-  <button @click="handleDelete()">Delete</button>
-  <button @click="handleAdd()">Add</button>
-  <button @click="handleUpdate()">Update</button>
+  <div>
+    <input v-model="addTitle" placeholder="title" />
+    <input v-model="addPlatform" placeholder="platform" />
+    <button @click="handleAdd()">Add</button>
+  </div>
+ 
+  <div>
+    <input v-model="updateId" placeholder="id" />
+    <input v-model="updateTitle" placeholder="title" />
+    <input v-model="updatePlatform" placeholder="platform" />
+    <button @click="handleUpdate()">Update</button>
+  </div>
+  
+  <div>
+    <input v-model="deleteId" placeholder="id" />
+    <button @click="handleDelete()">Delete</button>
+  </div>
+
   #games
   <div v-for="game in allGames" :key="game.id">
     <p class="id">Id: {{ game.id }}</p>
